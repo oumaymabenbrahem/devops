@@ -29,8 +29,8 @@ services:
             "spring.datasource.username" : "root",
             "spring.datasource.password" : null
           }'
-      stdin_open: true  # Corrected to boolean
-      tty: true  # Corrected to boolean
+      stdin_open: "true"  # Use string "true"
+      tty: "true"  # Use string "true"
 
 networks:
   test:
