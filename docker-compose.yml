@@ -29,7 +29,7 @@ services:
             "spring.datasource.password" : null
 
           }'
-      stdin_open: true
+      stdin_open: "true"
       tty: true
 
 
