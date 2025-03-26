@@ -1,4 +1,5 @@
 version: '3.8'
+
 services:
   mysqldb:
     image: mysql:latest
@@ -29,8 +30,8 @@ services:
             "spring.datasource.username" : "root",
             "spring.datasource.password" : null
           }'
-      stdin_open: "true"  # Use string "true"
-      tty: "true"  # Use string "true"
+    stdin_open: true
+    tty: true
 
 networks:
   test:
