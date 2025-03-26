@@ -12,6 +12,7 @@ services:
       - test
     volumes:
       - db:/var/lib/mysql
+
   Foyer_Management:
     depends_on:
       - mysqldb
@@ -27,15 +28,12 @@ services:
             "spring.jpa.properties.hibernate.dialect" : "org.hibernate.dialect.MySQL8Dialect",
             "spring.datasource.username" : "root",
             "spring.datasource.password" : null
-
           }'
-      stdin_open: "true"
-      tty: true
-
-
+      stdin_open: true  # Corrected to boolean
+      tty: true  # Corrected to boolean
 
 networks:
   test:
 
 volumes:
-  db: {} 
+  db: {}
