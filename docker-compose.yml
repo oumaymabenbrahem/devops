@@ -30,8 +30,7 @@ services:
             "spring.datasource.username" : "root",
             "spring.datasource.password" : null
           }'
-    #stdin_open: true
-    #tty: true
+   
 
 networks:
   test:
