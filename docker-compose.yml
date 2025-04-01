@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  backend:
+    image: oumaymabenbrahem/devops:latest   
+    build:
+      context: .
+      dockerfile: Dockerfile                
+    container_name: foyer-backend
+    ports:
+      - "8089:8081"                      
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod        
+    networks:
+      - test
+    depends_on:
+      - mysqldb  
+
+  mysqldb:
+    image: mysql:latest
+    restart: unless-stopped
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: tpfoyerdb
+    ports:
+      - "3307:3306"
+    networks:
+      - test
+    volumes:
+      - db:/var/lib/mysql
+
+networks:
+  test:
+    driver: bridge
+
+volumes:
+  db:
