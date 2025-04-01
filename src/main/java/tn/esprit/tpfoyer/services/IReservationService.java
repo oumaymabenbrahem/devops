@@ -12,4 +12,5 @@ public interface IReservationService
     Reservation updateReservation(Reservation r);
     Reservation retrieReservation(Long idReservation);
     void removeReservation(Long idReservation);
+    Reservation getReservation(Long id);
 }

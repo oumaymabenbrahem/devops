@@ -82,4 +82,8 @@ public class ChambreServiceImpl implements  IChambreService {
         reservationRepository.save(reservation);
     }
 
+    public List<Chambre> getChambresDisponibles(TypeChambre typeChambre) {
+        return chambreRepository.findChambresDisponiblesParType(typeChambre);
+    }
+
 }

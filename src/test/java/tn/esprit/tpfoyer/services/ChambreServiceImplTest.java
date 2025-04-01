@@ -52,28 +52,44 @@ class ChambreServiceImplTest {
     }
 
     @Test
+    void testChambrePeutAccepterDeuxEtudiants() {
+        // Création de deux étudiants
+        Etudiant etudiant1 = etudiantRepository.save(new Etudiant());
+        Etudiant etudiant2 = etudiantRepository.save(new Etudiant());
+
+        // Ajouter les réservations des deux étudiants
+        reservationRepository.save(new Reservation(chambre, etudiant1));
+        reservationRepository.save(new Reservation(chambre, etudiant2));
+
+        // Vérification que la chambre est pleine avec 2 réservations
+        long count = reservationRepository.countByChambre(chambre);
+        assertEquals(2, count, "La chambre doit être pleine avec 2 réservations.");
+        System.out.println("Cette chambre oit être pleine avec 2 réservations");
+    }
+
+    @Test
     void testChambreNePeutPasDepasserCapacite() {
         // Création de deux étudiants
         Etudiant etudiant1 = etudiantRepository.save(new Etudiant());
         Etudiant etudiant2 = etudiantRepository.save(new Etudiant());
 
-        // Ajout de deux réservations (chambre pleine)
+        // Ajouter les réservations des deux étudiants
         reservationRepository.save(new Reservation(chambre, etudiant1));
         reservationRepository.save(new Reservation(chambre, etudiant2));
 
-        // Vérification que la chambre est pleine
+        // Vérification que la chambre est pleine avec 2 réservations
         long count = reservationRepository.countByChambre(chambre);
         assertEquals(2, count, "La chambre doit être pleine avec 2 réservations.");
 
-        // Troisième étudiant essayant de réserver
+        // Création du troisième étudiant
         Etudiant etudiant3 = etudiantRepository.save(new Etudiant());
 
-        // Vérifier qu'une exception est levée
+        // Vérification qu'une exception est levée lorsque nous essayons de réserver pour un 3ème étudiant
         Exception exception = assertThrows(RuntimeException.class, () -> {
             chambreService.reserverChambre(chambre, etudiant3);
         });
 
-        // Vérifier le message de l'exception
+        // Vérification du message d'exception
         assertEquals("Cette chambre est déjà pleine.", exception.getMessage());
         System.out.println("Cette chambre est déjà pleine");
     }

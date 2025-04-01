@@ -33,7 +33,11 @@ public class Chambre  implements Serializable {
     private TypeChambre typeChambre;
 
 
-
+    public Chambre(long idFoyer, long numChambre, TypeChambre typeChambre) {
+        this.idFoyer = idFoyer;
+        this.numChambre = numChambre;
+        this.typeChambre = typeChambre;
+    }
 
     @Override
     public String toString() {

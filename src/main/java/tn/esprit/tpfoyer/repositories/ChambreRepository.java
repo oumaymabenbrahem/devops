@@ -25,4 +25,16 @@ public interface ChambreRepository extends JpaRepository<Chambre, Long> {
     List<Chambre> findByTypeCBloc (@Param("nomBloc") String nomBloc , @Param("capaciteBloc") long capaciteBloc );
     @Query("SELECT c FROM Chambre c WHERE c.numChambre IN :numChambres")
     List<Chambre> findByNumChambreIn(@Param("numChambres") List<Long> numChambres);
+    @Query("""
+       SELECT c FROM Chambre c 
+       WHERE c.typeChambre = :typeChambre 
+       AND (SELECT COUNT(r) FROM c.reservations r WHERE r.estValide = true) < 
+           CASE c.typeChambre 
+               WHEN 'SIMPLE' THEN 1 
+               WHEN 'DOUBLE' THEN 2 
+               WHEN 'TRIPLE' THEN 3 
+           END
+       """)
+    List<Chambre> findChambresDisponiblesParType(@Param("typeChambre") TypeChambre typeChambre);
+
 }

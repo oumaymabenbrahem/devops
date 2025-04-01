@@ -36,6 +36,8 @@ public class Reservation {
     public long getIdReservation() { return idReservation; }
     public void setIdReservation(long idReservation) { this.idReservation = idReservation; }
 
+
+
     public Date getAnneeUniversitaire() { return anneeUniversitaire; }
     public void setAnneeUniversitaire(Date anneeUniversitaire) { this.anneeUniversitaire = anneeUniversitaire; }
 
