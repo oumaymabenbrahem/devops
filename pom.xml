@@ -82,6 +82,16 @@
 
 	</dependencies>
 
+	<distributionManagement>
+		<repository>
+			<id>deploymentRepo</id>
+			<name>devops</name>
+			<url>http://172.19.165.107:8081/repository/Devops/</url>
+		</repository>
+
+
+	</distributionManagement>
+
 	<build>
 		<pluginManagement>
 			<plugins>
