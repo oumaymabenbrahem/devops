@@ -86,7 +86,7 @@
 		<repository>
 			<id>deploymentRepo</id>
 			<name>devops</name>
-			<url>http://172.19.165.107:8081/repository/Devops/</url>
+			<url>http://172.27.185.6:8081/repository/devops/</url>
 		</repository>
 
 
