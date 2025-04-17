@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   backend:
     image: oumaymabenbrahem/devops:latest
@@ -15,6 +13,16 @@ services:
       - test
     depends_on:
       - mysqldb
+
+  frontend:
+    image: oumaymabenbrahem/angular_devops_ui:latest
+    container_name: frontend-angular
+    ports:
+      - "4200:80"
+    networks:
+      - test
+    depends_on:
+      - backend
 
   mysqldb:
     image: mysql:latest
