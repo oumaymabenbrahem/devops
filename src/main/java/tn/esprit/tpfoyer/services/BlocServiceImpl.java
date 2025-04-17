@@ -1,7 +1,9 @@
 package tn.esprit.tpfoyer.services;
 
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tn.esprit.tpfoyer.entities.Bloc;
 import tn.esprit.tpfoyer.entities.Chambre;
@@ -15,10 +17,12 @@ import java.util.Set;
 
 @Service
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class BlocServiceImpl implements  IBlocService {
-    private final ChambreRepository chambreRepository;
-    BlocRepository blocRepository;
+
+     final ChambreRepository chambreRepository;
+     final BlocRepository blocRepository;
+
 
 
     @Override

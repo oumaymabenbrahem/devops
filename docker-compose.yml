@@ -8,7 +8,7 @@ services:
       dockerfile: Dockerfile
     container_name: foyer-backend
     ports:
-      - "8089:8081"
+      - "8089:8089"
     environment:
       - SPRING_PROFILES_ACTIVE=prod
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysqldb:3306/tpfoyerdb?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC
@@ -46,6 +46,37 @@ services:
     volumes:
       - sonarqube_data:/opt/sonarqube/data
       - sonarqube_extensions:/opt/sonarqube/extensions
+  prometheus:
+    image: prom/prometheus:v2.44.0
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - test
+
+  grafana:
+    image: grafana/grafana:9.5.2
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    volumes:
+      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+    networks:
+      - test
+
+  nexus:
+    image: sonatype/nexus3
+    container_name: nexus
+    ports:
+      - "8082:8081"
+    volumes:
+      - nexus-data:/nexus-data
+    networks:
+      - test
+
 
   postgres:
     image: postgres:13
@@ -68,3 +99,4 @@ volumes:
   sonarqube_data:
   sonarqube_extensions:
   postgres_data:
+  nexus-data:
