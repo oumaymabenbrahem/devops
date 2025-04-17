@@ -1,4 +1,4 @@
-version: "3.9"
+version: "3.8"
 services:
 
   # database application service
@@ -40,10 +40,7 @@ services:
         "spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect",
         "spring.jpa.hibernate.ddl-auto": "update"
       }'
-  front:
-    image:  walaammar/front:12
-    ports:
-      - "86:86"
+
 
 volumes:
   db :
