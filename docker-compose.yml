@@ -27,10 +27,7 @@ services:
     stdin_open: true
     tty: true
     environment:
-      MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: 'prometheus'
-      MANAGEMENT_ENDPOINT_PROMETHEUS_ENABLED: 'true'
-      MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED: 'true'
-      MANAGEMENT_ENDPOINT_HEALTH_SHOW-DETAILS: 'always'
+ 
 
 
       SPRING APPLICATION_JSON: '{
