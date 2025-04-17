@@ -27,7 +27,7 @@ services:
     stdin_open: true
     tty: true
     environment:
- 
+
 
 
       SPRING APPLICATION_JSON: '{
