@@ -1,0 +1,107 @@
+pipeline {
+    agent any
+
+    stages {
+
+        stage('Récupération du code de la branche') {
+            steps {
+                git branch: 'master', url: 'https://github.com/oumaimarais/devops.git'
+            }
+        }
+
+        stage("MAVEN BUILD") {
+            steps {
+                sh 'mvn clean install -Dmaven.test.skip=true'
+            }
+        }
+
+        stage("MOCKITO") {
+            steps {
+                sh "mvn test -Dtest=tn.esprit.tpfoyer.TpFoyerApplicationTests"
+            }
+        }
+
+        stage('SonarQube') {
+            steps {
+                withCredentials([string(credentialsId: 'scanner', variable: 'SONAR_TOKEN')]) {
+                    sh "mvn sonar:sonar -Dsonar.login=$SONAR_TOKEN"
+                }
+            }
+        }
+
+        stage('Publish to Nexus') {
+            steps {
+                script {
+                    sh 'mvn deploy -DaltDeploymentRepository=deploymentRepo::default::http://192.168.33.10:8081/repository/devops/'
+                }
+            }
+        }
+
+        stage("BUILD DOCKER IMAGE Backend") {
+            steps {
+                sh 'docker build -t devops/foyer:latest .'
+            }
+        }
+
+        stage('docker push backend') {
+            steps {
+                script {
+                    sh 'docker tag "devops/foyer:latest" "oumaimarais/devops:latest"'
+                    // Wrap docker login in the sh block
+                    sh 'docker login -u "oumaimarais" -p "22535005ouma" docker.io'
+                    sh 'docker push oumaimarais/devops:latest'
+                }
+            }
+        }
+
+        stage('Checkout Frontend Code') {
+            steps {
+                script {
+                    git branch: 'frontend', url: 'https://github.com/oumaimarais/devops.git'
+                }
+            }
+        }
+
+        stage('Build Frontend Docker Image') {
+            steps {
+                script {
+                    sh 'docker build -t "oumaimarais/angular_devops_ui:latest" .'
+                }
+            }
+        }
+
+        stage('Push Frontend Image') {
+            steps {
+                sh 'docker login -u "oumaimarais" -p "22535005ouma" docker.io'
+                sh 'docker push "oumaimarais/angular_devops_ui:latest"'
+            }
+        }
+
+        stage('run application') {
+            steps {
+                script {
+                    git branch: 'master', url: 'https://github.com/oumaimarais/devops.git'
+                    sh 'docker compose up -d'
+                }
+            }
+        }
+         // Run Prometheus container
+                stage('Run Prometheus') {
+                    steps {
+                        script {
+                            sh 'docker start prometheus'
+                        }
+                    }
+                }
+
+                // Run Grafana container
+                stage('Run Grafana') {
+                    steps {
+                        script {
+                            sh 'docker start grafana'
+                        }
+                    }
+                }
+
+    }
+}
