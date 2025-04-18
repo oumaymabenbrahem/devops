@@ -1,0 +1,34 @@
+<div class="container">
+    <h2>Liste des étudiants</h2>
+    
+    <button (click)="addEtudiant()">Ajouter un étudiant</button>
+    
+    <div *ngIf="etudiants.length > 0; else noEtudiants">
+      <div *ngFor="let etudiant of etudiants" class="student-card">
+        <p><strong>CIN:</strong> {{ etudiant.cin }}</p>
+        <p><strong>ID:</strong> {{ etudiant.idEtudiant }}</p>
+        <p><strong>Nom:</strong> {{ etudiant.nomEt }}</p>
+        <p><strong>Prénom:</strong> {{ etudiant.prenomEt }}</p>
+        <p><strong>Date de naissance:</strong> {{ etudiant.dateNaissance | date:'yyyy-MM-dd' }}</p>
+        <p><strong>École:</strong> {{ etudiant.ecole }}</p>
+        <p><strong>Type d'étudiant:</strong> {{ etudiant.typeEtudiant || 'Non spécifié' }}</p>
+  
+        <h3>Réservations</h3>
+        <ul *ngIf="etudiant.reservations.length > 0; else noReservations">
+          <li *ngFor="let res of etudiant.reservations">{{ res }}</li>
+        </ul>
+        <ng-template #noReservations><p>Aucune réservation.</p></ng-template>
+  
+        <h3>Tâches</h3>
+        <ul *ngIf="etudiant.taches.length > 0; else noTasks">
+          <li *ngFor="let tache of etudiant.taches">{{ tache }}</li>
+        </ul>
+        <ng-template #noTasks><p>Aucune tâche assignée.</p></ng-template>
+      </div>
+    </div>
+  
+    <ng-template #noEtudiants>
+      <p>Aucun étudiant trouvé.</p>
+    </ng-template>
+  </div>
+  

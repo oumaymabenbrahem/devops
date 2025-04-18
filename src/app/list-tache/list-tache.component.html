@@ -1,0 +1,80 @@
+<div class="container">
+  <div class="header">
+    <h2>Gestion des Tâches</h2>
+    <button class="refresh-btn" (click)="fetchTaches()" title="Rafraîchir la liste">
+      <i class="refresh-icon">↻</i> Rafraîchir
+    </button>
+  </div>
+
+  <div *ngIf="loading" class="loading-container">
+    <div class="loading-spinner"></div>
+    <p>Chargement des tâches...</p>
+    <p class="loading-info">Connexion à l'API: {{ apiUrl }}</p>
+  </div>
+
+  <div *ngIf="error" class="error-container">
+    <div class="error-icon">⚠️</div>
+    <div class="error-message">
+      <h3>Erreur</h3>
+      <p>{{ error }}</p>
+      <button (click)="fetchTaches()">Réessayer</button>
+    </div>
+  </div>
+
+  <div *ngIf="!loading && !error" class="taches-container">
+    <div *ngIf="taches.length > 0; else noTaches" class="taches-grid">
+      <div *ngFor="let tache of taches" class="tache-card" [ngClass]="{'menager': tache.typeTache === 'MENAGER', 'jardinage': tache.typeTache === 'JARDINAGE', 'bricolage': tache.typeTache === 'BRICOLAGE'}">
+        <div class="tache-header">
+          <span class="tache-type">{{ getTypeTacheLabel(tache.typeTache) }}</span>
+          <span class="tache-id">#{{ tache.idTache }}</span>
+        </div>
+
+        <div class="tache-body">
+          <div class="tache-info">
+            <div class="info-row">
+              <div class="info-label">Date:</div>
+              <div class="info-value">{{ tache.dateTache | date:'dd/MM/yyyy' }}</div>
+            </div>
+
+            <div class="info-row">
+              <div class="info-label">Durée:</div>
+              <div class="info-value">{{ tache.duree }} heure(s)</div>
+            </div>
+
+            <div class="info-row">
+              <div class="info-label">Tarif:</div>
+              <div class="info-value">{{ tache.tarifHoraire }} €/h</div>
+            </div>
+
+            <div class="info-row total-cost">
+              <div class="info-label">Total:</div>
+              <div class="info-value">{{ calculateCost(tache.duree, tache.tarifHoraire) }} €</div>
+            </div>
+          </div>
+
+          <div class="tache-etudiant">
+            <h3>Assigné à</h3>
+            <div *ngIf="tache.etudiant" class="etudiant-info">
+              <div class="etudiant-avatar">{{ getInitials(tache.etudiant.nomEt, tache.etudiant.prenomEt) }}</div>
+              <div class="etudiant-details">
+                <div class="etudiant-name">{{ tache.etudiant.prenomEt }} {{ tache.etudiant.nomEt }}</div>
+                <div class="etudiant-school">{{ tache.etudiant.ecole }}</div>
+              </div>
+            </div>
+            <div *ngIf="!tache.etudiant" class="no-etudiant">
+              <p>Non assigné</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #noTaches>
+      <div class="no-taches">
+        <div class="no-data-icon">📋</div>
+        <h3>Aucune tâche disponible</h3>
+        <p>Il n'y a actuellement aucune tâche enregistrée dans le système.</p>
+      </div>
+    </ng-template>
+  </div>
+</div>
