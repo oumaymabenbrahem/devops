@@ -21,16 +21,17 @@ export class ListEtudiantComponent implements OnInit {
         this.etudiants = data;
         console.log('Data received:', this.etudiants);
       },
-      error: (error) => {
-        console.error('Error fetching students:', error);
-        // You can add more detailed error handling here
-        if (error.status) {
-          console.error(Status code: ${error.status});
-        }
-        if (error.message) {
-          console.error(Error message: ${error.message});
-        }
-      }
+   error: (error) => {
+  console.error('Error fetching students:', error);
+  // You can add more detailed error handling here
+  if (error.status) {
+    console.error(`Status code: ${error.status}`);
+  }
+  if (error.message) {
+    console.error(`Error message: ${error.message}`);
+  }
+}
+
     });
   }
 
@@ -41,15 +42,17 @@ export class ListEtudiantComponent implements OnInit {
         console.log('Student added successfully');
         this.fetchEtudiants(); // Refresh list after adding
       },
-      error: (error) => {
-        console.error('Error adding student:', error);
-        if (error.status) {
-          console.error(Status code: ${error.status});
-        }
-        if (error.message) {
-          console.error(Error message: ${error.message});
-        }
-      }
+  error: (error) => {
+  console.error('Error adding student:', error);
+  // You can add more detailed error handling here
+  if (error.status) {
+    console.error(`Status code: ${error.status}`);
+  }
+  if (error.message) {
+    console.error(`Error message: ${error.message}`);
+  }
+}
+
     });
   }
 
