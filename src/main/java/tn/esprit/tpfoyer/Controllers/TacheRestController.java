@@ -12,7 +12,9 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/taches") // Mappage de base pour la gestion des tâches
+@RequestMapping("/api/taches") 
+@CrossOrigin(origins = "*") // Ajouter cette ligne
+// Mappage de base pour la gestion des tâches
 public class TacheRestController {
 
     ITacheService tacheService;
