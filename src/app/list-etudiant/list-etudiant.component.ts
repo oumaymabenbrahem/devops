@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { EtudiantService } from '../etudiant.service';
 
 @Component({
@@ -6,7 +6,7 @@ import { EtudiantService } from '../etudiant.service';
   templateUrl: './list-etudiant.component.html',
   styleUrls: ['./list-etudiant.component.scss']
 })
-export class ListEtudiantComponent {
+export class ListEtudiantComponent implements OnInit {
   etudiants: any[] = [];
 
   constructor(private etudiantService: EtudiantService) {}
@@ -16,16 +16,40 @@ export class ListEtudiantComponent {
   }
 
   fetchEtudiants() {
-    this.etudiantService.getAllEtudiants().subscribe(data => {
-      this.etudiants = data;
-      console.log('Data requested ...',this.etudiants);
+    this.etudiantService.getAllEtudiants().subscribe({
+      next: (data) => {
+        this.etudiants = data;
+        console.log('Data received:', this.etudiants);
+      },
+      error: (error) => {
+        console.error('Error fetching students:', error);
+        // You can add more detailed error handling here
+        if (error.status) {
+          console.error(Status code: ${error.status});
+        }
+        if (error.message) {
+          console.error(Error message: ${error.message});
+        }
+      }
     });
   }
 
   addEtudiant() {
-    const newEtudiant = { nom: 'Jean', age: 22 };
-    this.etudiantService.addEtudiant(newEtudiant).subscribe(() => {
-      this.fetchEtudiants(); // Refresh list after adding
+    const newEtudiant = { nomEt: 'Jean', prenomEt: 'Dupont', cin: 12345678, ecole: 'ESPRIT', dateNaissance: new Date() };
+    this.etudiantService.addEtudiant(newEtudiant).subscribe({
+      next: () => {
+        console.log('Student added successfully');
+        this.fetchEtudiants(); // Refresh list after adding
+      },
+      error: (error) => {
+        console.error('Error adding student:', error);
+        if (error.status) {
+          console.error(Status code: ${error.status});
+        }
+        if (error.message) {
+          console.error(Error message: ${error.message});
+        }
+      }
     });
   }
 
